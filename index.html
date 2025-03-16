@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Site Completo</title>
+    <link rel="stylesheet" href="styles.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7642464340274375" crossorigin="anonymous"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7iTpeDGe5LaMWgtaYbtSdw3c9DSnU6u8",
+            authDomain: "marketplace-digital-9e586.firebaseapp.com",
+            projectId: "marketplace-digital-9e586",
+            storageBucket: "marketplace-digital-9e586.appspot.com",
+            messagingSenderId: "83712053799",
+            appId: "1:83712053799:web:7407b1c0ae29f9256e3402",
+            measurementId: "G-GYGMTWN1CT"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+        const db = getFirestore();
+
+        // Function to handle user registration
+        async function registerUser(email, password) {
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                console.log("User registered:", user);
+            } catch (error) {
+                console.error("Error registering user:", error);
+            }
+        }
+
+        // Function to handle user login
+        async function loginUser(email, password) {
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                console.log("User logged in:", user);
+            } catch (error) {
+                console.error("Error logging in user:", error);
+            }
+        }
+
+        // Function to create a mini site
+        async function createMiniSite(title, description) {
+            try {
+                const docRef = await addDoc(collection(db, "MiniSites"), {
+                    title: title,
+                    description: description,
+                    createdAt: new Date()
+                });
+                console.log("Mini site created with ID:", docRef.id);
+            } catch (error) {
+                console.error("Error creating mini site:", error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Bem-vindo ao Meu Site</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="home">
+            <h2>Home</h2>
+            <p>Esta é a página inicial do meu site.</p>
+        </section>
+        <section id="about">
+            <h2>Sobre</h2>
+            <p>Informações sobre o site.</p>
+        </section>
+        <section id="contact">
+            <h2>Contato</h2>
+            <p>Formulário de contato.</p>
+        </section>
+        <section id="register">
+            <h2>Cadastro</h2>
+            <form id="registerForm">
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" id="registerPassword" placeholder="Senha" required>
+                <button type="submit">Registrar</button>
+            </form>
+        </section>
+        <section id="login">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Senha" required>
+                <button type="submit">Entrar</button>
+            </form>
+        </section>
+        <section id="createMiniSite">
+            <h2>Criar Mini Site</h2>
+            <form id="miniSiteForm">
+                <input type="text" id="miniSiteTitle" placeholder="Título" required>
+                <textarea id="miniSiteDescription" placeholder="Descrição" required></textarea>
+                <button type="submit">Criar</button>
+            </form>
+        </section>
+        <section id="miniSites">
+            <h2>Mini Sites Criados</h2>
+            <div id="miniSitesList"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Meu Site Completo</p>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+</html>
